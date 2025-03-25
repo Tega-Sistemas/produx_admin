@@ -1,0 +1,69 @@
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 1rem;
+}
+
+.indicator-card {
+    width: calc(25% - 1rem); /* 4 cards por linha, considerando o espaçamento */
+    min-width: 200px;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.indicator-card:hover {
+    transform: scale(1.05);
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    height: 100px; /* Altura fixa */
+}
+
+.circle-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px; /* Mesmo tamanho do CircularProgress */
+    height: 60px;
+}
+
+.circle-background {
+    color: #b6b6b6a6 !important; /* Fundo branco claro para a parte não preenchida */
+    position: absolute;
+}
+
+.circle-progress {
+    color: #313131; /* Cinza escuro para o progresso, contrastando com o fundo */
+    position: absolute;
+}
+
+.value {
+    font-size: 1.5rem; /* Tamanho do número */
+    font-weight: bold;
+    position: absolute;
+    z-index: 1;
+}
+
+.label {
+    text-shadow: 2px 0px 8px rgba(0, 0, 0, 0.5)
+}
+
+@media (max-width: 1024px) {
+    .indicator-card {
+        width: calc(50% - 1rem); /* 2 cards por linha */
+    }
+}
+
+@media (max-width: 600px) {
+    .indicator-card {
+        width: 100%; /* 1 card por linha */
+    }
+}

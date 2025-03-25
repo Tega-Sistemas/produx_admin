@@ -1,0 +1,64 @@
+body{
+    background-color: #313338;
+  }
+  
+  .container{
+    display: flex;  
+    width: 100vw;
+    flex-direction: row;
+    gap: 16px;
+  }
+  
+  /* Estilos do container principal */
+  .cardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: flex-start;
+    padding: 16px;
+    width: 60vw;
+  }
+  
+  p {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-size: 20pt;
+  }
+  
+  /* Estilos do card */
+  .card {
+    flex: 1 1 550px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
+    padding: 16px;
+    color: white;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .bodyCard{
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+  }
+  
+  .equipamentoTitle{
+    text-align: center;
+  }
+  
+  /* Cores baseadas na situação */
+  .yellow { background-color: #FFCA3A; color: black; }
+  .red { background-color: #d1462f; }
+  .green { background-color: #3F7D20; }
+  .blue { background-color: #1982C4; }
+  
+  /* Ajustes de responsividade */
+  @media (max-width: 600px) {
+    .cardsContainer {
+      justify-content: center;
+    }
+  }
+  

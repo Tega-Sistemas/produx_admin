@@ -1,0 +1,9 @@
+.timer {
+    position: fixed;
+    bottom: 4.2rem;
+    right: 10px;
+    background-color: rgba(52, 105, 250, 0.5);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
