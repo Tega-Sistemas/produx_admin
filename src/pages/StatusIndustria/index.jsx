@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Box, Typography, Button, Grid, CardHeader, CardContent, Card as MuiCard, useTheme, styled } from '@mui/material';
+import { Typography, Grid, CardHeader, CardContent, Card as MuiCard, useTheme, styled } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import './index.css';
 

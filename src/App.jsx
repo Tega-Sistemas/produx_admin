@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -11,6 +10,7 @@ import HomePage from './pages/home';
 import DashGeralParadaTrabalho from './pages/DashGeralParadaTrabalho';
 import StatusIndustria from './pages/StatusIndustria';
 
+import './App.css';
 
 const theme = createTheme({
   palette: {
