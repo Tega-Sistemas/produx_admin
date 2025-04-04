@@ -11,12 +11,34 @@ O projeto segue uma estrutura modular e organizada, com os principais diretório
 - **`src/`** 🛠️: Contém o código-fonte da aplicação, incluindo componentes, páginas, estilos e utilitários.
 - **`build/`** 📦: Diretório gerado após o processo de build, contendo os arquivos otimizados para produção.
 
-### 📜 Principais Arquivos
-- **`src/index.js`** 🎯: Ponto de entrada da aplicação. Renderiza o componente principal `App` e registra o service worker.
-- **`src/App.jsx`** 🏠: Componente principal que define o layout e as rotas da aplicação.
-- **`src/setupProxy.js`** 🔀: Configuração de proxy para redirecionar chamadas de API durante o desenvolvimento.
-- **`src/serviceWorkerRegistration.js`** 📲: Configuração do service worker para suporte a PWA.
-- **`src/utils/utils.js`** 🛠️: Contém funções utilitárias, como `formatMinutesToHours` para formatar minutos em horas.
+### 🌐 Configuração de Deploy
+No ambiente de produção, o arquivo `src/setupProxy.js` não é utilizado. Em vez disso, o proxy para redirecionar chamadas de `/api` para a URL da API backend deve ser configurado no servidor web, como o **Nginx**. 
+
+Abaixo está um exemplo de configuração no arquivo `nginx.conf`:
+
+```nginx
+server {
+   listen 80;
+   server_name produxadmin.com;
+
+   location / {
+      root /usr/share/nginx/html;
+      index index.html;
+      try_files $uri /index.html;
+   }
+
+   location /api/ {
+      proxy_pass http://backend-api-url.com/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection 'upgrade';
+      proxy_set_header Host $host;
+      proxy_cache_bypass $http_upgrade;
+   }
+}
+```
+
+Certifique-se de substituir `http://backend-api-url.com/` pela URL real da API backend. Após configurar o Nginx, reinicie o serviço para aplicar as alterações.
 
 ## 🛠️ Tecnologias Utilizadas
 - **⚛️ React**: Framework principal para construção da interface.
