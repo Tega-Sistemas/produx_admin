@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import formatMinutesToHours from '../../utils/utils';
+import FullScreenLoader from '../../components/FullScreenLoader';
 
 export default function Dashboard({ tpFiltro, filtroId, title }) {
   const theme = useTheme();
@@ -22,6 +23,10 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
       });
   }, [tpFiltro, filtroId]);
 
+  if (loading) {
+    return <FullScreenLoader />;
+}
+
   return (
     <TableContainer component={Paper} style={{ backgroundColor: theme.palette.background.default, position: 'relative' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '20px' }}>
@@ -36,13 +41,13 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
           <Typography variant="h4" style={{ fontSize: '36px' }}>
             DAILY MANUFACTURING PRODUCTIVITY REPORT
           </Typography>
-          <Typography variant="h6" style={{ fontSize: '30px', marginTop:'1rem' }}>
+          <Typography variant="h6" style={{ fontSize: '30px', marginTop: '1rem' }}>
             <strong>{title}</strong>
           </Typography>
         </div>
 
         {/* Restante do conteúdo */}
-        <Typography align="center" style={{ fontSize: '24px', marginTop:'1rem' }}>
+        <Typography align="center" style={{ fontSize: '24px', marginTop: '1rem' }}>
           HORA ATUAL: {new Date().toLocaleTimeString()}
         </Typography>
 

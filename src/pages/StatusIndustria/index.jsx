@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid, CardHeader, CardContent, Card as MuiCard, useTheme, styled } from '@mui/material';
+import FullScreenLoader from '../../components/FullScreenLoader';
 import { makeStyles } from '@mui/styles';
 import './index.css';
 
@@ -33,6 +34,7 @@ function StatusIndustria() {
     const classes = useStyles();
     const theme = useTheme();
     const [stations, setStations] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,11 +49,13 @@ function StatusIndustria() {
                 setStations(sortedData);
             } catch (error) {
                 console.error('Erro ao buscar dados:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
+        setLoading(true);
         fetchData();
-
         const intervalId = setInterval(fetchData, 1000);
         return () => clearInterval(intervalId);
     }, []);
@@ -69,7 +73,17 @@ function StatusIndustria() {
         }
     };
 
+    if (loading) {
+        return (
+            <>
+                <h1>Loading...</h1>
+                <FullScreenLoader />
+            </>
+        );
+    }
+
     return (
+
         <div className='container'>
             <Grid
                 container

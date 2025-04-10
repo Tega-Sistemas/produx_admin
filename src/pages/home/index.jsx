@@ -1,73 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, CircularProgress, useTheme } from '@mui/material';
-// import { useNavigate } from 'react-router-dom';
-import './HomePage.css';
+import { useTheme } from '@mui/material';
+//import FullScreenLoader from '../../components/FullScreenLoader';
+import IndicatorCard from '../../components/IndicatorCard';
+import GridApontamentos from '../../components/GridApontamentosAbertos';
 
 const HomePage = () => {
     const theme = useTheme();
-    // const navigate = useNavigate();
-    
+
     const [data, setData] = useState({});
+    const [totalEquipamentos, setTotalEquipamentos] = useState({});
+    const [percentages, setPercentages] = useState({});
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
                 const response = await fetch('/api/Api/data/statusgeralindustria');
                 const result = await response.json();
                 setData(result);
+                setTotalEquipamentos(parseInt(result.TotalEquipamentos) || 0);
+                setPercentages({
+                    "Amarelo": (parseInt(data.Amarelo) / totalEquipamentos) * 100 || 0,
+                    "NaoOperado": (parseInt(data.NaoOperado) / totalEquipamentos) * 100 || 0,
+                    "Trabalhando": (parseInt(data.Trabalhando) / totalEquipamentos) * 100 || 0,
+                    "Vermelho": (parseInt(data.Vermelho) / totalEquipamentos) * 100 || 0,
+                });
             } catch (error) {
                 console.error('Erro ao buscar dados:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchData();
     }, []);
-    
-    const totalEquipamentos = parseInt(data.TotalEquipamentos) || 0;
-    const percentages = {
-        "Amarelo": (parseInt(data.Amarelo) / totalEquipamentos) * 100 || 0,
-        "NaoOperado": (parseInt(data.NaoOperado) / totalEquipamentos) * 100 || 0,
-        "Trabalhando": (parseInt(data.Trabalhando) / totalEquipamentos) * 100 || 0,
-        "Vermelho": (parseInt(data.Vermelho) / totalEquipamentos) * 100 || 0,
-    };
 
-    const IndicatorCard = ({ value, percentage, label, backgroundColor, color }) => (
-        // onClick={handleCardClick}
-        <Card className="indicator-card" style={{ backgroundColor: color }}>
-            <CardContent className="card-content">
-                <div className="circle-container">
-                    <CircularProgress
-                        variant="determinate"
-                        value={100}
-                        size={'5rem'}
-                        thickness={5}
-                        className="circle-background"
-                    />
-                    <CircularProgress
-                        variant="determinate"
-                        value={percentage}
-                        size={'5rem'}
-                        thickness={5}
-                        className="circle-progress"
-                        style={{ color: '#FCFCFC' }}
-                    />
-                    <Typography variant="h5" component="div" className="value" fontWeight='bold' style={{ textAlign: 'left', fontSize: '1.5rem' }}>
-                        {value}
-                    </Typography>
-                </div>
-                <Typography variant="body2" className="label" fontWeight='bold' style={{fontSize:'1.2rem', textAlign:'left'}}>
-                    {label}
-                </Typography>
-            </CardContent>
-        </Card>
-    );
+    // if (loading) {
+    //     //return <FullScreenLoader />;
+    // }
 
     return (
-        <div className="cards-container" style={{ width: '100%', height: '100px' }}>
-            <IndicatorCard value={data.Trabalhando} percentage={percentages.Trabalhando} label="Verde" backgroundColor={theme.palette.color_pallet.success_light} color={theme.palette.color_pallet.success} />
-            <IndicatorCard value={data.Amarelo} percentage={percentages.Amarelo} label="Amarelo" backgroundColor={theme.palette.color_pallet.warning_light} color={theme.palette.color_pallet.warning} />
-            <IndicatorCard value={data.Vermelho} percentage={percentages.Vermelho} label="Vermelho" backgroundColor={theme.palette.color_pallet.danger_light} color={theme.palette.color_pallet.danger} />
-            <IndicatorCard value={data.NaoOperado} percentage={percentages.NaoOperado} label="Não Operados" backgroundColor={theme.palette.color_pallet.info_light} color={theme.palette.color_pallet.info} />
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '20px', marginBottom: '20px' }}>
+            <div className="cards-container">
+                <IndicatorCard value={data.Trabalhando} percentage={percentages.Trabalhando} label="Verde" backgroundColor={theme.palette.color_pallet.success_light} color={theme.palette.color_pallet.success} />
+                <IndicatorCard value={data.Amarelo} percentage={percentages.Amarelo} label="Amarelo" backgroundColor={theme.palette.color_pallet.warning_light} color={theme.palette.color_pallet.warning} />
+                <IndicatorCard value={data.Vermelho} percentage={percentages.Vermelho} label="Vermelho" backgroundColor={theme.palette.color_pallet.danger_light} color={theme.palette.color_pallet.danger} />
+                <IndicatorCard value={data.NaoOperado} percentage={percentages.NaoOperado} label="Não Operados" backgroundColor={theme.palette.color_pallet.info_light} color={theme.palette.color_pallet.info} />
+            </div>
+            <div style={{ flexGrow: 1 }}>
+                <GridApontamentos />
+            </div>
         </div>
     );
 };

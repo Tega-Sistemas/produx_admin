@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import HomePage from './pages/home';
 import DashGeralParadaTrabalho from './pages/DashGeralParadaTrabalho';
 import StatusIndustria from './pages/StatusIndustria';
+import DashLinhaPintura from './pages/DashLinhaPintura';
 
 import './App.css';
 
@@ -70,6 +71,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/dashboardprod" element={<DashGeralParadaTrabalho />} />
               <Route path="/statusindustria" element={<StatusIndustria />} />
+              <Route path="/dashpintura" element={<DashLinhaPintura />} />
             </Routes>
           </div>
           <Footer />

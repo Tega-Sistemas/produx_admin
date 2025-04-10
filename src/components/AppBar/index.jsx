@@ -30,6 +30,7 @@ const AppBarComponent = ({ isMaximized, toggleMaximize }) => {
             <Button color="inherit" component={Link} to="/">Home</Button>
             <Button color="inherit" component={Link} to="/dashboardprod">Dashboard</Button>
             <Button color="inherit" component={Link} to="/statusindustria">Status da Industria</Button>
+            <Button color="inherit" component={Link} to="/dashpintura">Dash (Linha UV)</Button>
             <div style={{ marginLeft: 'auto' }}>
               <Button color="inherit" onClick={toggleMaximize}>
                 <FullscreenIcon />
