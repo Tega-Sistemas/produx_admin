@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
-//import FullScreenLoader from '../../components/FullScreenLoader';
+import FullScreenLoader from '../../components/FullScreenLoader';
 import IndicatorCard from '../../components/IndicatorCard';
 import GridApontamentos from '../../components/GridApontamentosAbertos';
 
@@ -36,9 +36,9 @@ const HomePage = () => {
         fetchData();
     }, []);
 
-    // if (loading) {
-    //     //return <FullScreenLoader />;
-    // }
+    if (loading) {
+        return <FullScreenLoader />;
+    }
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '20px', marginBottom: '20px' }}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid, CardHeader, CardContent, Card as MuiCard, useTheme, styled } from '@mui/material';
+import { Typography, Grid2, CardHeader, CardContent, Card as MuiCard, useTheme, styled } from '@mui/material';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { makeStyles } from '@mui/styles';
 import './index.css';
@@ -7,13 +7,14 @@ import './index.css';
 const StyledCard = styled(MuiCard)(({ theme, statuscolor }) => ({
     backgroundColor: statuscolor,
     width: '100%',
-    minHeight: '150px', // Minimum height to ensure consistency
+    minHeight: '160px',
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: theme.spacing(2),
+    boxSizing: 'border-box', // Garante que padding/margin não aumentem a largura
+    marginBottom: theme.spacing(0.5),
     '& .MuiCardHeader-root': {
         backgroundColor: statuscolor,
-        color: theme.palette.getContrastText(statuscolor), // Ensures readable text
+        color: theme.palette.getContrastText(statuscolor),
         padding: theme.spacing(1.5),
     },
     '& .MuiCardContent-root': {
@@ -26,7 +27,9 @@ const StyledCard = styled(MuiCard)(({ theme, statuscolor }) => ({
 const useStyles = makeStyles((theme) => ({
     cardsContainer: {
         width: '100%',
-        padding: theme.spacing(2),
+        padding: theme.spacing(1), // Reduzido para celular
+        boxSizing: 'border-box', // Evita overflow pelo padding
+        overflowX: 'hidden', // Garante que não haja rolagem horizontal
     },
 }));
 
@@ -83,28 +86,26 @@ function StatusIndustria() {
     }
 
     return (
-
-        <div className='container'>
-            <Grid
+        <div className='container' style={{ width: '100%', overflowX: 'hidden' }}>
+            <Grid2
                 container
                 className={classes.cardsContainer}
-                spacing={2}
-                justifyContent="center"
+                spacing={1}
             >
                 {stations.map((station, index) => (
-                    <Grid
-                        item
-                        xs={12}
-                        sm={6}
-                        md={4}
-                        lg={3}
-                        xl={2.4}
+                    <Grid2
                         key={index}
+                        size={{
+                            xs: 12, // 1 item por linha no celular
+                            sm: 6,  // 2 itens por linha no tablet
+                            md: 3,  // 4 itens por linha em tela média
+                            lg: 2.4 // 5 itens por linha em tela grande
+                        }}
                     >
                         <Card data={station} getStatusColor={getStatusColor} />
-                    </Grid>
+                    </Grid2>
                 ))}
-            </Grid>
+            </Grid2>
         </div>
     );
 }
@@ -115,19 +116,59 @@ function Card({ data, getStatusColor }) {
     return (
         <StyledCard statuscolor={statusColor}>
             <CardHeader
-                title={data.EquipamentoDescricao}
-                titleTypographyProps={{ variant: 'h6' }}
+                title={
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        title={data.EquipamentoDescricao}
+                        style={{
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            wordBreak: 'break-word',
+                        }}
+                    >
+                        {data.EquipamentoDescricao}
+                    </Typography>
+                }
             />
             <CardContent>
-                <Typography variant="body2">
+                <Typography
+                    variant="body2"
+                    title={`Data: ${new Date(data.ControleSituacaoDtAlteracao).toLocaleString()}`}
+                    style={{
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        wordBreak: 'break-word',
+                    }}
+                >
                     Data: {new Date(data.ControleSituacaoDtAlteracao).toLocaleString()}
                 </Typography>
                 {data.ControleSituacao === 'CG' ? (
-                    <Typography variant="body2">
+                    <Typography
+                        variant="body2"
+                        title={`Qte. Produzida: ${data.QtdeProduzido} / Peças minuto: ${data.QtdeProduzido}`}
+                        style={{
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            wordBreak: 'break-word',
+                        }}
+                    >
                         Qte. Produzida: {data.QtdeProduzido} / Peças minuto: {data.QtdeProduzido}
                     </Typography>
                 ) : (
-                    <Typography variant="body2">
+                    <Typography
+                        variant="body2"
+                        title={`Motivo: ${data.MotivoParadaDescricao}`}
+                        style={{
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            wordBreak: 'break-word',
+                        }}
+                    >
                         Motivo: {data.MotivoParadaDescricao}
                     </Typography>
                 )}

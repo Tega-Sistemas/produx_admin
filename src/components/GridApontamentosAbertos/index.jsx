@@ -342,7 +342,7 @@ const GridApontamentos = () => {
                     color: theme.palette.text.primary,
                 }}
             >
-                Dados de apontamentos abertos
+                Apontamentos abertos
             </Typography>
 
             {isMobile ? renderCardView() : isTablet ? renderTabletView() : renderGridView()}
