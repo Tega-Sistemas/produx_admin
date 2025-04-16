@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -29,6 +29,33 @@ const AppBarComponent = ({ isMaximized, toggleMaximize }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [animatingButton, setAnimatingButton] = useState(null);
+  const [URL, setURL] = useState('');
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        fetch('/api/Api/data/urldashpintura')
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            setURL(data.url);
+          })
+          .catch(error => {
+            console.error('Erro ao buscar os dados da API:', error);
+
+          }).finally(() => {
+            // setLoading(false);
+          });
+
+      } catch (error) {
+
+      }
+    }
+
+    // setLoading(true);
+    fetchData();
+  }, []);
 
   const handleMenuClick = (event) => {
     setAnimatingButton('profile');
@@ -67,8 +94,11 @@ const AppBarComponent = ({ isMaximized, toggleMaximize }) => {
     { label: 'Home', path: '/' },
     { label: 'Dashboard', path: '/dashboardprod' },
     { label: 'Status da Industria', path: '/statusindustria' },
-    { label: 'Dash (Linha UV)', path: '/dashpintura' }, //TODO: remover caso a url não exista na configuração do Produx
   ];
+
+  if (URL) {
+    navItems.push({ label: 'Dash (Linha UV)', path: '/dashpintura' });
+  }
 
   const drawer = (
     <Box sx={{ textAlign: 'center', bgcolor: theme.palette.background.paper, height: '100%' }}>
