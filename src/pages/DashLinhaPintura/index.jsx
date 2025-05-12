@@ -13,8 +13,7 @@ const DashLinhaPintura = () => {
                 fetch('/api/Api/data/urldashpintura')
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
-                        setURL(data.url);
+                        setURL(data.URL);
                     })
                     .catch(error => {
                         console.error('Erro ao buscar os dados da API:', error);

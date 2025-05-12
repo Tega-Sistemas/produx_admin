@@ -28,11 +28,14 @@ server {
    }
 
    location /api/ {
-      proxy_pass http://backend-api-url.com/;
+      proxy_pass http://192.168.2.6:8080/produx;
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection 'upgrade';
       proxy_set_header Host $host;
+      proxy_set_header token 'apikeysample\';
+      proxy_set_header Content-Type 'application/json;charset=UTF-8';
+      add_header Access-Control-Allow-Origin '*';
       proxy_cache_bypass $http_upgrade;
    }
 }
