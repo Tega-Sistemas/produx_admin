@@ -68,12 +68,14 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
     tooltip: {
       trigger: 'item',
       formatter: params => {
+        const tempo = typeof params.data.Tempo === 'number' ? formatMinutesToHours(params.data.Tempo) : '0h 0m';
+        const tempoMedio = typeof params.data.TempoMedioEquipamento === 'number' ? formatMinutesToHours(params.data.TempoMedioEquipamento) : '0h 0m';
         return `
           <b>${params.name}</b><br/>
           Percentual: ${params.value}%<br/>
           Equipamentos: ${params.data.QtdeEquipamentos}<br/>
-          Tempo Total: ${formatMinutesToHours(params.data.Tempo)}<br/>
-          Tempo Médio/Equip: ${formatMinutesToHours(params.data.TempoMedioEquipamento)}
+          Tempo Total: ${tempo}<br/>
+          Tempo Médio/Equip: ${tempoMedio}
         `;
       }
     },
@@ -122,10 +124,14 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
     tooltip: {
       trigger: 'item',
       formatter: params => {
+        const tempo = typeof params.data.Tempo === 'number' ? formatMinutesToHours(params.data.Tempo) : '0h 0m';
+        const tempoMedio = typeof params.data.TempoMedioEquipamento === 'number' ? formatMinutesToHours(params.data.TempoMedioEquipamento) : '0h 0m';
         return `
-          <b>${params.data.name}</b><br/>
-          Minutos: ${formatMinutesToHours(params.data.minutes)}<br/>
-          Percentual: ${params.data.value} %
+          <b>${params.name}</b><br/>
+          Percentual: ${params.value}%<br/>
+          Equipamentos: ${params.data.QtdeEquipamentos}<br/>
+          Tempo Total: ${tempo}<br/>
+          Tempo Médio/Equip: ${tempoMedio}
         `;
       }
     },

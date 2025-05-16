@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import formatMinutesToHours from '../../utils/utils'
+import { formatMinutesToHours, roundToDecimalPlaces } from '../../utils/utils';
 
 export default function Dashboard({ tpFiltro, filtroId, title }) {
-
   const theme = useTheme();
-
   const [chartData, setChartData] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -15,6 +13,7 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
     fetch(`/api/Api/data/dadosproducao?Tpbusca=${tpFiltro}&Filtroid=${filtroId || 0}`)
       .then(response => response.json())
       .then(data => {
+        console.log('Dados recebidos da API:', data);
         setChartData(data);
         setLoading(false);
       })
@@ -45,11 +44,11 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
           <TableBody>
             <TableRow>
               <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}>Meta dia</TableCell>
-              <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}><strong>{chartData.MetaDia}</strong></TableCell>
+              <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}><strong>{roundToDecimalPlaces(chartData.MetaDia, 2)}</strong></TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}>Produção atual</TableCell>
-              <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}><strong>{chartData.ProducaoAtual}</strong></TableCell>
+              <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}><strong>{roundToDecimalPlaces(chartData.ProducaoAtual, 2)} {chartData.UnidadeMedida}</strong></TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ backgroundColor: chartData.MetaDiariaAtingida > 100 ? 'green' : chartData.MetaDiariaAtingida > 50 ? '#E7BB28FF' : 'red', color: 'white', fontSize: '24px' }}>
@@ -69,7 +68,11 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
             </TableRow>
             <TableRow>
               <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}>Horas total de trabalho</TableCell>
-              <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}><strong>{formatMinutesToHours(chartData.MinutosTrabalhoTotal)}</strong></TableCell>
+              <TableCell style={{ color: theme.palette.text.primary, fontSize: '24px' }}>
+                <strong>
+                  {formatMinutesToHours(chartData.MinutosTrabalhoTotal)}
+                </strong>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -1,3 +1,9 @@
+const roundToDecimalPlaces = (value, decimalPlaces = 2) => {
+    const factor = Math.pow(10, decimalPlaces);
+    const rounded = Math.round(value * factor) / factor;
+    return parseFloat(rounded.toFixed(decimalPlaces))
+};
+
 const formatMinutesToHours = (minutes) => {
     const horas = Math.floor(minutes / 60);
     const minutos = Math.round(minutes % 60);
@@ -49,6 +55,7 @@ const returnTpCEPP = (tpCEPP) => {
 }
 
 module.exports = {
+    roundToDecimalPlaces,
     formatMinutesToHours,
     calculateMinutesDifference,
     formatDateToBrazilianFormat,

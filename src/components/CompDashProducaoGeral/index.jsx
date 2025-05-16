@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import formatMinutesToHours from '../../utils/utils';
+import { formatMinutesToHours, roundToDecimalPlaces } from '../../utils/utils';
 import FullScreenLoader from '../../components/FullScreenLoader';
 
 export default function Dashboard({ tpFiltro, filtroId, title }) {
   const theme = useTheme();
   const [chartData, setChartData] = useState({});
   const [loading, setLoading] = useState(true);
+
+  console.log('formatMinutesToHours:', formatMinutesToHours); // Para depuração
+  console.log('roundToDecimalPlaces:', roundToDecimalPlaces); // Para depuração
 
   useEffect(() => {
     setLoading(true);
@@ -25,7 +28,7 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
 
   if (loading) {
     return <FullScreenLoader />;
-}
+  }
 
   return (
     <TableContainer component={Paper} style={{ backgroundColor: theme.palette.background.default, position: 'relative' }}>
@@ -51,54 +54,48 @@ export default function Dashboard({ tpFiltro, filtroId, title }) {
           HORA ATUAL: {new Date().toLocaleTimeString()}
         </Typography>
 
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <>
-            <Typography align="center" style={{ fontSize: '24px' }}>
-              HORAS TRABALHADAS: {formatMinutesToHours(chartData.MinutosTrabalhoTotal)}
-            </Typography>
-            <Table style={{ marginTop: '2rem' }}>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>META DIA</TableCell>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>PRODUÇÃO ATUAL</TableCell>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>% META DIÁRIA ATINGIDA</TableCell>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>% FALTANTE DA META DIÁRIA</TableCell>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>MÉDIA/HORA</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>
-                    <strong>{chartData.MetaDia}</strong>
-                  </TableCell>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>
-                    <strong>{chartData.ProducaoAtual}</strong>
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{
-                      backgroundColor: chartData.MetaDiariaAtingida > 100 ? 'green' : chartData.MetaDiariaAtingida > 50 ? '#E7BB28FF' : 'red',
-                      color: 'white',
-                      fontSize: '32px',
-                      border: '1px solid white',
-                      padding: '16px'
-                    }}
-                  >
-                    <strong>{chartData.MetaDiariaAtingida}%</strong>
-                  </TableCell>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>
-                    <strong>{chartData.FaltanteMetaDiaria}%</strong>
-                  </TableCell>
-                  <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>
-                    <strong>{chartData.MediaProdHora}</strong>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </>
-        )}
+        <Typography align="center" style={{ fontSize: '24px' }}>
+          HORAS TRABALHADAS: {formatMinutesToHours(chartData.MinutosTrabalhoTotal)}
+        </Typography>
+        <Table style={{ marginTop: '2rem' }}>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>META DIA</TableCell>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>PRODUÇÃO ATUAL</TableCell>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>% META DIÁRIA ATINGIDA</TableCell>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>% FALTANTE DA META DIÁRIA</TableCell>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>MÉDIA/HORA</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>
+                <strong>{roundToDecimalPlaces(chartData.MetaDia, 2)}</strong>
+              </TableCell>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>
+                <strong>{roundToDecimalPlaces(chartData.ProducaoAtual, 2)}</strong>
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{
+                  backgroundColor: Number(chartData.MetaDiariaAtingida) > 100 ? 'green' : Number(chartData.MetaDiariaAtingida) > 50 ? '#E7BB28FF' : 'red',
+                  color: 'white',
+                  fontSize: '32px',
+                  border: '1px solid white',
+                  padding: '16px'
+                }}
+              >
+                <strong>{roundToDecimalPlaces(chartData.MetaDiariaAtingida, 2)}%</strong>
+              </TableCell>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>
+                <strong>{roundToDecimalPlaces(chartData.FaltanteMetaDiaria, 2)}%</strong>
+              </TableCell>
+              <TableCell align="center" style={{ color: theme.palette.text.primary, fontSize: '32px', border: '1px solid white', padding: '16px' }}>
+                <strong>{roundToDecimalPlaces(chartData.MediaProdHora, 2)}</strong>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </div>
     </TableContainer>
   );
