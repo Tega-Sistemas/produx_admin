@@ -4,6 +4,18 @@ const roundToDecimalPlaces = (value, decimalPlaces = 2) => {
     return parseFloat(rounded.toFixed(decimalPlaces))
 };
 
+const convertCentennialMinutesToHours = (centennialMinutes) => {
+    const totalMinutes = Math.floor(centennialMinutes);
+    const fractionalMinutes = centennialMinutes - totalMinutes;
+    let hours = Math.floor(totalMinutes / 60);
+    let minutes = totalMinutes % 60 + Math.round(fractionalMinutes * 60);
+    if (minutes >= 60) {
+        hours += Math.floor(minutes / 60);
+        minutes = minutes % 60;
+    }
+    return `${hours}h ${minutes}min`;
+};
+
 const formatMinutesToHours = (minutes) => {
     const horas = Math.floor(minutes / 60);
     const minutos = Math.round(minutes % 60);
@@ -61,4 +73,5 @@ module.exports = {
     formatDateToBrazilianFormat,
     formatDecimalPlaces,
     returnTpCEPP,
+    convertCentennialMinutesToHours,
 };

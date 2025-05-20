@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://192.168.100.44:8080/ProduxProdux',
+      target: 'http://localhost:8090/TegaCEPP17_2023Produx',
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/api': '' },
