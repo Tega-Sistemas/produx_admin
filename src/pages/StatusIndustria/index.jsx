@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Grid2, Typography, useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Grid2, useTheme } from '@mui/material';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import Card from '../../components/StatusIndustriaComponents/Card';
 import ChartModal from '../../components/StatusIndustriaComponents/ChartModal';
@@ -46,10 +46,7 @@ function StatusIndustria() {
 
     if (loading) {
         return (
-            <>
-                <Typography variant="h1">Loading...</Typography>
-                <FullScreenLoader />
-            </>
+            <FullScreenLoader />
         );
     }
 
@@ -57,15 +54,7 @@ function StatusIndustria() {
         <div className="container" style={{ width: '100%', overflowX: 'hidden' }}>
             <Grid2 container className={classes.cardsContainer} spacing={1}>
                 {stations.map((station, index) => (
-                    <Grid2
-                        key={index}
-                        size={{
-                            xs: 12,
-                            sm: 6,
-                            md: 3,
-                            lg: 2.4,
-                        }}
-                    >
+                    <Grid2 key={index} size={{ xs: 12, sm: 6, md: 3, lg: 2.4, }} >
                         <Card
                             data={station}
                             getStatusColor={getStatusColor(theme)}

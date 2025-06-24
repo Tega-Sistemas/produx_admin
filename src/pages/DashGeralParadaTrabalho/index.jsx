@@ -76,7 +76,6 @@ export default function App() {
                 setTimeout(() => setLoading(false), 300);
             })
             .catch(error => {
-                //colocar uma notificação com o erro
                 setLoading(false);
             });
     }, []);

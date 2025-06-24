@@ -1,67 +1,94 @@
-import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 import { baseChartConfig } from '../common/styles';
 
 const ParadaRetrabalhoChart = ({ data }) => {
-    const downtimeReworkOption = {
+    // Ensure data is parsed as floats
+    const percParadas = parseFloat(data.PercParadas);
+    const percRetrabalho = parseFloat(data.PercRetrabalho);
+    const percProducao = parseFloat(data.PercProducao);
+
+    const pieChartOption = {
         ...baseChartConfig,
-        title: { text: 'Paradas e Retrabalho', textStyle: { color: '#ffffff' } },
+        title: {
+            text: 'Paradas e Retrabalho',
+            left: 'center',
+            textStyle: { color: '#ffffff' }
+        },
         tooltip: {
-            trigger: 'axis',
-            axisPointer: { type: 'shadow' },
-            formatter: (params) => {
-                return params.map(p => `${p.seriesName}: ${parseFloat(p.data).toFixed(2)}%`).join('<br/>');
-            },
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c}% ({d}%)'
         },
         legend: {
-            data: ['Paradas', 'Retrabalho'],
+            orient: 'horizontal',
+            left: 'left',
+            data: ['Paradas', 'Retrabalho', 'Produção'],
             textStyle: { color: '#ffffff', fontSize: 12 },
             top: 40,
         },
-        xAxis: {
-            type: 'category',
-            data: ['Status'],
-            axisLabel: { color: '#ffffff', fontSize: 12 },
-            axisLine: { lineStyle: { color: '#ffffff' } },
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: { color: '#ffffff', fontSize: 12, formatter: '{value}%' },
-            axisLine: { lineStyle: { color: '#ffffff' } },
-            splitLine: { lineStyle: { color: '#424242' } },
-        },
         series: [
             {
-                name: 'Paradas',
-                type: 'bar',
-                stack: 'total',
-                data: [parseFloat(data.PercParadas).toFixed(2)],
-                itemStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: '#ef5350' },
-                        { offset: 1, color: '#d32f2f' },
-                    ]),
+                name: 'Percentual', // Series name
+                type: 'pie', // Set chart type to pie
+                radius: '50%', // Set the radius of the pie chart
+                center: ['50%', '60%'], // Center the pie chart
+                data: [
+                    {
+                        value: percParadas.toFixed(2), // Downtime value
+                        name: 'Paradas',
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: '#ef5350' },
+                                { offset: 1, color: '#d32f2f' },
+                            ]),
+                        },
+                    },
+                    {
+                        value: percRetrabalho.toFixed(2),
+                        name: 'Retrabalho',
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: '#ffee58' },
+                                { offset: 1, color: '#fbc02d' },
+                            ]),
+                        },
+                    },
+                    {
+                        value: percProducao.toFixed(2),
+                        name: 'Prod.',
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: '#17AA50FF' },
+                                { offset: 1, color: '#12883FFF' },
+                            ]),
+                        },
+                    },
+                ],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 },
-                barWidth: '20%',
-            },
-            {
-                name: 'Retrabalho',
-                type: 'bar',
-                stack: 'total',
-                data: [parseFloat(data.PercRetrabalho).toFixed(2)],
-                itemStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: '#ffee58' },
-                        { offset: 1, color: '#fbc02d' },
-                    ]),
+                label: {
+                    show: true,
+                    formatter: '{b}: {d}%',
+                    color: '#ffffff',
+                    fontSize: 12
                 },
-                barWidth: '20%',
-            },
-        ],
+                labelLine: {
+                    show: true,
+                    length: 10, // Length of the label line
+                    lineStyle: {
+                        color: '#ffffff' // Color of the label line
+                    }
+                }
+            }
+        ]
     };
 
-    return <ReactECharts option={downtimeReworkOption} style={{ height: '300px', width: '100%' }} />;
+    return <ReactECharts option={pieChartOption} style={{ height: '300px', width: '100%' }} />;
 };
 
 export default ParadaRetrabalhoChart;

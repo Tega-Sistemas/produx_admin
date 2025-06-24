@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal, Box, Typography, IconButton } from '@mui/material';
 import FullScreenLoader from '../../../components/FullScreenLoader';
 import ChartGrid from '../ChartGrid';

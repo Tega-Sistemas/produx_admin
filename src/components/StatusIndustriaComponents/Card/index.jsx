@@ -1,6 +1,12 @@
-import React from 'react';
-import { CardHeader, CardContent, Typography } from '@mui/material';
+import { CardHeader, CardContent, Typography, Stack } from '@mui/material';
 import { StyledCard } from '../common/styles';
+
+const typographyStyles = {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    wordBreak: 'break-word',
+};
 
 const Card = ({ data, getStatusColor, onClick }) => {
     const statusColor = getStatusColor(data.ControleSituacao);
@@ -13,12 +19,7 @@ const Card = ({ data, getStatusColor, onClick }) => {
                         variant="h6"
                         noWrap
                         title={data.EquipamentoDescricao}
-                        style={{
-                            textOverflow: 'ellipsis',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            wordBreak: 'break-word',
-                        }}
+                        style={{ ...typographyStyles }}
                     >
                         {data.EquipamentoDescricao}
                     </Typography>
@@ -27,41 +28,31 @@ const Card = ({ data, getStatusColor, onClick }) => {
             <CardContent>
                 <Typography
                     variant="body2"
-                    title={`Data: ${new Date(data.ControleSituacaoDtAlteracao).toLocaleString()}`}
-                    style={{
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        wordBreak: 'break-word',
-                    }}
+                    style={{ ...typographyStyles }}
                 >
-                    Data: {new Date(data.ControleSituacaoDtAlteracao).toLocaleString()}
+                    Início: <b>{new Date(data.ControleSituacaoDtAlteracao).toLocaleString()}</b>
                 </Typography>
                 {data.ControleSituacao === 'CG' ? (
-                    <Typography
-                        variant="body2"
-                        title={`Qte. Produzida: ${data.QtdeProduzido} / Peças minuto: ${data.QtdeProduzido / data.QtdeMinutos}`}
-                        style={{
-                            textOverflow: 'ellipsis',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            wordBreak: 'break-word',
-                        }}
-                    >
-                        Qte. Produzida: {data.QtdeProduzido} / Peças minuto: {data.QtdeProduzido}
-                    </Typography>
+                    <Stack direction="column">
+                        <Typography
+                            variant="body2"
+                            style={{ ...typographyStyles }}
+                        >
+                            Programado: <b>{data.OrdemProducaoQtde || 0}</b> / Produção Atual: <b>{data.QtdeProduzido || 0}</b>
+                        </Typography>
+                        <Typography
+                            variant="body2"
+                            style={{ ...typographyStyles }}
+                        >
+                            Total Prod. OP: <b>{data.QtdeProduzidoTotOrdem || 0}</b> / Peças por Minuto: <b>{data.QtdeMinuto || 0}</b>
+                        </Typography>
+                    </Stack>
                 ) : (
                     <Typography
                         variant="body2"
-                        title={`Motivo: ${data.MotivoParadaDescricao}`}
-                        style={{
-                            textOverflow: 'ellipsis',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            wordBreak: 'break-word',
-                        }}
+                        style={{ ...typographyStyles }}
                     >
-                        Motivo: {data.MotivoParadaDescricao}
+                        Motivo: <b>{data.MotivoParadaDescricao}</b>
                     </Typography>
                 )}
             </CardContent>
