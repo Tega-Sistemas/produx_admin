@@ -7,7 +7,7 @@ const Footer = () => {
 
     return (
         <div className="footer" style={{ backgroundColor: theme.palette.primary.main, position: 'fixed', bottom: 0, left: 0, width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-            <img src={`${process.env.PUBLIC_URL}/TegaSistemas.png`} alt="Tega Sistemas" />
+            <img src={"/TegaSistemas.png"} alt="Tega Sistemas" />
         </div>
     );
 };

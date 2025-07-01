@@ -1,10 +1,10 @@
-const roundToDecimalPlaces = (value, decimalPlaces = 2) => {
+export const roundToDecimalPlaces = (value, decimalPlaces = 2) => {
     const factor = Math.pow(10, decimalPlaces);
     const rounded = Math.round(value * factor) / factor;
     return parseFloat(rounded.toFixed(decimalPlaces))
 };
 
-const convertCentennialMinutesToHours = (centennialMinutes) => {
+export const convertCentennialMinutesToHours = (centennialMinutes) => {
     const totalMinutes = Math.floor(centennialMinutes);
     const fractionalMinutes = centennialMinutes - totalMinutes;
     let hours = Math.floor(totalMinutes / 60);
@@ -16,20 +16,20 @@ const convertCentennialMinutesToHours = (centennialMinutes) => {
     return `${hours}h ${minutes}min`;
 };
 
-const formatMinutesToHours = (minutes) => {
+export const formatMinutesToHours = (minutes) => {
     const horas = Math.floor(minutes / 60);
     const minutos = Math.round(minutes % 60);
     return `${horas}h ${minutos}min`;
 };
 
-const calculateMinutesDifference = (startDate) => {
+export const calculateMinutesDifference = (startDate) => {
     const start = new Date(startDate);
     const now = new Date();
     const diffInMs = now - start;
     return Math.floor(diffInMs / (1000 * 60));
 };
 
-const formatDateToBrazilianFormat = (date) => {
+export const formatDateToBrazilianFormat = (date) => {
     const parsedDate = new Date(date);
     const day = String(parsedDate.getDate()).padStart(2, '0');
     const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
@@ -44,7 +44,7 @@ const formatDateToBrazilianFormat = (date) => {
     return `${day}/${month}/${year}`;
 };
 
-const formatDecimalPlaces = (number, places) => {
+export const formatDecimalPlaces = (number, places) => {
     const factor = Math.pow(10, places);
     const rounded = Math.round(number * factor) / factor;
     return rounded.toLocaleString('pt-BR', {
@@ -53,7 +53,7 @@ const formatDecimalPlaces = (number, places) => {
     });
 };
 
-const returnTpCEPP = (tpCEPP) => {
+export const returnTpCEPP = (tpCEPP) => {
     switch (tpCEPP) {
         case 'P':
             return 'Produção';
@@ -66,12 +66,3 @@ const returnTpCEPP = (tpCEPP) => {
     }
 }
 
-module.exports = {
-    roundToDecimalPlaces,
-    formatMinutesToHours,
-    calculateMinutesDifference,
-    formatDateToBrazilianFormat,
-    formatDecimalPlaces,
-    returnTpCEPP,
-    convertCentennialMinutesToHours,
-};

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
-import formatMinutesToHours from '../../utils/utils'
+import { formatMinutesToHours } from '../../utils/utils'
 import { useTheme, Typography } from '@mui/material';
 
 export default function Dashboard({ tpFiltro, filtroId, title }) {

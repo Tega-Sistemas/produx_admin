@@ -10,8 +10,9 @@ import HomePage from './pages/home';
 import DashGeralParadaTrabalho from './pages/DashGeralParadaTrabalho';
 import StatusIndustria from './pages/StatusIndustria';
 import DashLinhaPintura from './pages/DashLinhaPintura';
+import StatusLoteProducao from './pages/StatusLoteProducao';
 
-import './App.css';
+// import './App.css';
 
 const theme = createTheme({
   palette: {
@@ -71,6 +72,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/dashboardprod" element={<DashGeralParadaTrabalho />} />
               <Route path="/statusindustria" element={<StatusIndustria />} />
+              <Route path="statusloteprod" element={<StatusLoteProducao />} />
               <Route path="/dashpintura" element={<DashLinhaPintura />} />
             </Routes>
           </div>

@@ -94,6 +94,7 @@ const AppBarComponent = ({ isMaximized, toggleMaximize }) => {
     { label: 'Home', path: '/' },
     { label: 'Dashboard', path: '/dashboardprod' },
     { label: 'Status da Industria', path: '/statusindustria' },
+    { label: 'Status do Lote', path: '/statusloteprod' },
   ];
 
   if (URL) {
@@ -144,7 +145,7 @@ const AppBarComponent = ({ isMaximized, toggleMaximize }) => {
         >
           <Toolbar>
             <img
-              src={`${process.env.PUBLIC_URL}/Produx.png`}
+              src="/Produx.png"
               alt="Logo"
               style={{ marginRight: 16, maxWidth: isMobile ? '10rem' : '15rem' }}
             />
